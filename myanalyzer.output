@@ -1,0 +1,3882 @@
+Τερματικά σύμβολα μη χρησιμοποιούμενα στη γραμματική
+
+   KW_BREAK
+   TK_ESCAPE
+   TK_NONPRINT
+
+
+Γραμματική
+
+    0 $accept: program_start $end
+
+    1 head: %empty
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    3 program: ext_declaration
+    4        | program ext_declaration
+
+    5 ext_declaration: functions_declaration
+    6                | declarations
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    9 declarations: KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+
+   11 const_assignment: TK_IDENT value
+   12                 | const_assignment KW_COMMA TK_IDENT value
+   13                 | TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+   14                 | const_assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+   15 assignment: TK_IDENT
+   16           | TK_IDENT value
+   17           | TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   18           | TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+   19           | assignment KW_COMMA TK_IDENT
+   20           | assignment KW_COMMA TK_IDENT value
+   21           | assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   22           | assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+   23 value: KW_ARROW expression
+
+   24 expression: variables
+   25           | KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | call_function
+   27           | KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | expression KW_PLUS expression
+   29           | KW_NOT expression
+   30           | KW_PLUS expression
+   31           | KW_SUB expression
+   32           | expression KW_SUB expression
+   33           | expression KW_MUL expression
+   34           | expression KW_DIV expression
+   35           | expression KW_MOD expression
+   36           | expression KW_EQUAL expression
+   37           | expression KW_NOTEQUAL expression
+   38           | expression KW_LESSTHAN expression
+   39           | expression KW_LESSEQUAL expression
+   40           | expression KW_AND expression
+   41           | expression KW_OR expression
+
+   42 variables: TK_INT
+   43          | TK_REAL
+   44          | TK_CONSTANT
+   45          | TK_IDENT
+   46          | KW_TRUE
+   47          | KW_FALSE
+
+   48 init_array: variables
+   49           | init_array KW_COMMA variables
+
+   50 f_parameters: TK_IDENT KW_CLN type
+   51             | TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_CLN type
+   52             | f_parameters KW_COMMA TK_IDENT KW_CLN type
+
+   53 body: instructions
+   54     | body instructions
+
+   55 instructions: instr_assignment KW_ERWTIMATIKO
+   56             | if_statement
+   57             | while_statement KW_POOL KW_ERWTIMATIKO
+   58             | KW_RETURN expression KW_ERWTIMATIKO
+   59             | declarations
+   60             | call_function KW_ERWTIMATIKO
+
+   61 instr_assignment: TK_IDENT KW_ARROW expression
+   62                 | type TK_IDENT KW_ARROW expression
+   63                 | TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+
+   64 if_statement: KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+
+   66 else_stmt: instructions
+   67          | stmt instructions
+
+   68 while_statement: KW_WHILE expression KW_LOOP stmt
+
+   69 stmt: instructions
+   70     | stmt instructions
+
+   71 type: KW_INT
+   72     | KW_REAL
+   73     | KW_BOOL
+   74     | KW_STRING
+
+   75 call_function: TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+   77 parameters: expression
+   78           | parameters KW_COMMA TK_IDENT
+
+
+Τερματικά σύμβολα, με κανόνες όπου εμφανίζονται
+
+$end (0) 0
+error (256)
+KW_CONST (258) 7 8 10
+KW_INT (259) 2 71
+KW_REAL (260) 72
+KW_BOOL (261) 73
+KW_STRING (262) 74
+KW_TRUE (263) 46
+KW_FALSE (264) 47
+KW_IF (265) 64 65
+KW_ELSE (266) 64
+KW_FI (267) 64 65
+KW_WHILE (268) 68
+KW_LOOP (269) 68
+KW_POOL (270) 57
+KW_LET (271) 9
+KW_BREAK (272)
+KW_RETURN (273) 58
+KW_START (274) 2
+KW_NOT (275) 29
+KW_PLUS (276) 28 30
+KW_SUB (277) 31 32
+KW_MUL (278) 33
+KW_DIV (279) 34
+KW_MOD (280) 35
+KW_EQUAL (281) 36
+KW_NOTEQUAL (282) 37
+KW_LESSTHAN (283) 38
+KW_LESSEQUAL (284) 39
+KW_AND (285) 40
+KW_OR (286) 41
+SPLUS (287)
+SSUB (288)
+SUB (289)
+PLUS (290)
+PAR (291)
+KW_ERWTIMATIKO (292) 9 10 55 57 58 60 64 65
+KW_PARENTHESIS (293) 2 7 8 27 75 76
+KW_CLOSE_PARENTHESIS (294) 2 7 8 27 75 76
+KW_COMMA (295) 12 14 19 20 21 22 49 52 78
+KW_HK (296) 13 14 17 18 21 22 51 63
+KW_CLOSE_HK (297) 13 14 17 18 21 22 51 63
+KW_ARROW (298) 2 7 8 23 61 62 63
+KW_CLN (299) 2 7 8 9 10 50 51 52
+KW_SEPERATION (300) 2 7 8
+KW_BRACKET (301) 2 7 8 25
+KW_CLOSE_BRACKET (302) 2 7 8 25
+KW_THEN (303) 64 65
+TK_IDENT (304) 7 8 11 12 13 14 15 16 17 18 19 20 21 22 45 50 51 52
+    61 62 63 75 76 78
+TK_INT (305) 13 14 17 18 21 22 42 51 63
+TK_REAL (306) 43
+TK_ESCAPE (307)
+TK_NONPRINT (308)
+TK_CONSTANT (309) 44
+
+
+Μη τερματικά σύμβολα, με κανόνες όπου εμφανίζονται
+
+$accept (55)
+    στα αριστερά: 0
+head (56)
+    στα αριστερά: 1, στα δεξιά: 2
+program_start (57)
+    στα αριστερά: 2, στα δεξιά: 0
+program (58)
+    στα αριστερά: 3 4, στα δεξιά: 2 4
+ext_declaration (59)
+    στα αριστερά: 5 6, στα δεξιά: 3 4
+functions_declaration (60)
+    στα αριστερά: 7 8, στα δεξιά: 5
+declarations (61)
+    στα αριστερά: 9 10, στα δεξιά: 6 59
+const_assignment (62)
+    στα αριστερά: 11 12 13 14, στα δεξιά: 10 12
+    14
+assignment (63)
+    στα αριστερά: 15 16 17 18 19 20 21 22, στα δεξιά:
+    9 19 20 21 22
+value (64)
+    στα αριστερά: 23, στα δεξιά: 11 12 13 14 16
+    18 20 22
+expression (65)
+    στα αριστερά: 24 25 26 27 28 29 30 31 32 33 34 35 36
+    37 38 39 40 41, στα δεξιά: 23 27 28 29 30 31 32 33 34 35
+    36 37 38 39 40 41 58 61 62 63 64 65 68 77
+variables (66)
+    στα αριστερά: 42 43 44 45 46 47, στα δεξιά:
+    24 48 49
+init_array (67)
+    στα αριστερά: 48 49, στα δεξιά: 25 49
+f_parameters (68)
+    στα αριστερά: 50 51 52, στα δεξιά: 7 52
+body (69)
+    στα αριστερά: 53 54, στα δεξιά: 2 7 8 54
+instructions (70)
+    στα αριστερά: 55 56 57 58 59 60, στα δεξιά:
+    53 54 66 67 69 70
+instr_assignment (71)
+    στα αριστερά: 61 62 63, στα δεξιά: 55
+if_statement (72)
+    στα αριστερά: 64 65, στα δεξιά: 56
+else_stmt (73)
+    στα αριστερά: 66 67, στα δεξιά: 64
+while_statement (74)
+    στα αριστερά: 68, στα δεξιά: 57
+stmt (75)
+    στα αριστερά: 69 70, στα δεξιά: 64 65 67 68
+    70
+type (76)
+    στα αριστερά: 71 72 73 74, στα δεξιά: 7 8 9
+    10 50 51 52 62
+call_function (77)
+    στα αριστερά: 75 76, στα δεξιά: 26 60
+parameters (78)
+    στα αριστερά: 77 78, στα δεξιά: 75 78
+
+
+Κατάσταση 0
+
+    0 $accept: . program_start $end
+    1 head: . %empty
+    2 program_start: . head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    $default  ελάττωση με χρήση του κανόνα 1 (head)
+
+    head           πήγαινε στην κατάσταση 1
+    program_start  πήγαινε στην κατάσταση 2
+
+
+Κατάσταση 1
+
+    2 program_start: head . program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    3 program: . ext_declaration
+    4        | . program ext_declaration
+    5 ext_declaration: . functions_declaration
+    6                | . declarations
+    7 functions_declaration: . KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | . KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+
+    KW_CONST  ολίσθηση, και μετάβαση στη κατάσταση 3
+    KW_LET    ολίσθηση, και μετάβαση στη κατάσταση 4
+
+    program                πήγαινε στην κατάσταση 5
+    ext_declaration        πήγαινε στην κατάσταση 6
+    functions_declaration  πήγαινε στην κατάσταση 7
+    declarations           πήγαινε στην κατάσταση 8
+
+
+Κατάσταση 2
+
+    0 $accept: program_start . $end
+
+    $end  ολίσθηση, και μετάβαση στη κατάσταση 9
+
+
+Κατάσταση 3
+
+    7 functions_declaration: KW_CONST . TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | KW_CONST . TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   10 declarations: KW_CONST . const_assignment KW_CLN type KW_ERWTIMATIKO
+   11 const_assignment: . TK_IDENT value
+   12                 | . const_assignment KW_COMMA TK_IDENT value
+   13                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+   14                 | . const_assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 10
+
+    const_assignment  πήγαινε στην κατάσταση 11
+
+
+Κατάσταση 4
+
+    9 declarations: KW_LET . assignment KW_CLN type KW_ERWTIMATIKO
+   15 assignment: . TK_IDENT
+   16           | . TK_IDENT value
+   17           | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   18           | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+   19           | . assignment KW_COMMA TK_IDENT
+   20           | . assignment KW_COMMA TK_IDENT value
+   21           | . assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   22           | . assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 12
+
+    assignment  πήγαινε στην κατάσταση 13
+
+
+Κατάσταση 5
+
+    2 program_start: head program . KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    4 program: program . ext_declaration
+    5 ext_declaration: . functions_declaration
+    6                | . declarations
+    7 functions_declaration: . KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | . KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+
+    KW_CONST  ολίσθηση, και μετάβαση στη κατάσταση 3
+    KW_LET    ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_START  ολίσθηση, και μετάβαση στη κατάσταση 14
+
+    ext_declaration        πήγαινε στην κατάσταση 15
+    functions_declaration  πήγαινε στην κατάσταση 7
+    declarations           πήγαινε στην κατάσταση 8
+
+
+Κατάσταση 6
+
+    3 program: ext_declaration .
+
+    $default  ελάττωση με χρήση του κανόνα 3 (program)
+
+
+Κατάσταση 7
+
+    5 ext_declaration: functions_declaration .
+
+    $default  ελάττωση με χρήση του κανόνα 5 (ext_declaration)
+
+
+Κατάσταση 8
+
+    6 ext_declaration: declarations .
+
+    $default  ελάττωση με χρήση του κανόνα 6 (ext_declaration)
+
+
+Κατάσταση 9
+
+    0 $accept: program_start $end .
+
+    $default  αποδοχή
+
+
+Κατάσταση 10
+
+    7 functions_declaration: KW_CONST TK_IDENT . KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | KW_CONST TK_IDENT . KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   11 const_assignment: TK_IDENT . value
+   13                 | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK value
+   23 value: . KW_ARROW expression
+
+    KW_HK     ολίσθηση, και μετάβαση στη κατάσταση 16
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 17
+
+    value  πήγαινε στην κατάσταση 18
+
+
+Κατάσταση 11
+
+   10 declarations: KW_CONST const_assignment . KW_CLN type KW_ERWTIMATIKO
+   12 const_assignment: const_assignment . KW_COMMA TK_IDENT value
+   14                 | const_assignment . KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    KW_COMMA  ολίσθηση, και μετάβαση στη κατάσταση 19
+    KW_CLN    ολίσθηση, και μετάβαση στη κατάσταση 20
+
+
+Κατάσταση 12
+
+   15 assignment: TK_IDENT .  [KW_COMMA, KW_CLN]
+   16           | TK_IDENT . value
+   17           | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK
+   18           | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK value
+   23 value: . KW_ARROW expression
+
+    KW_HK     ολίσθηση, και μετάβαση στη κατάσταση 21
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    $default  ελάττωση με χρήση του κανόνα 15 (assignment)
+
+    value  πήγαινε στην κατάσταση 23
+
+
+Κατάσταση 13
+
+    9 declarations: KW_LET assignment . KW_CLN type KW_ERWTIMATIKO
+   19 assignment: assignment . KW_COMMA TK_IDENT
+   20           | assignment . KW_COMMA TK_IDENT value
+   21           | assignment . KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   22           | assignment . KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    KW_COMMA  ολίσθηση, και μετάβαση στη κατάσταση 24
+    KW_CLN    ολίσθηση, και μετάβαση στη κατάσταση 25
+
+
+Κατάσταση 14
+
+    2 program_start: head program KW_START . KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 26
+
+
+Κατάσταση 15
+
+    4 program: program ext_declaration .
+
+    $default  ελάττωση με χρήση του κανόνα 4 (program)
+
+
+Κατάσταση 16
+
+   13 const_assignment: TK_IDENT KW_HK . TK_INT KW_CLOSE_HK value
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 27
+
+
+Κατάσταση 17
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW . KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | KW_CONST TK_IDENT KW_ARROW . KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   23 value: KW_ARROW . expression
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 33
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 39
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 18
+
+   11 const_assignment: TK_IDENT value .
+
+    $default  ελάττωση με χρήση του κανόνα 11 (const_assignment)
+
+
+Κατάσταση 19
+
+   12 const_assignment: const_assignment KW_COMMA . TK_IDENT value
+   14                 | const_assignment KW_COMMA . TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 42
+
+
+Κατάσταση 20
+
+   10 declarations: KW_CONST const_assignment KW_CLN . type KW_ERWTIMATIKO
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 47
+
+
+Κατάσταση 21
+
+   17 assignment: TK_IDENT KW_HK . TK_INT KW_CLOSE_HK
+   18           | TK_IDENT KW_HK . TK_INT KW_CLOSE_HK value
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 48
+
+
+Κατάσταση 22
+
+   23 value: KW_ARROW . expression
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 39
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 23
+
+   16 assignment: TK_IDENT value .
+
+    $default  ελάττωση με χρήση του κανόνα 16 (assignment)
+
+
+Κατάσταση 24
+
+   19 assignment: assignment KW_COMMA . TK_IDENT
+   20           | assignment KW_COMMA . TK_IDENT value
+   21           | assignment KW_COMMA . TK_IDENT KW_HK TK_INT KW_CLOSE_HK
+   22           | assignment KW_COMMA . TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 50
+
+
+Κατάσταση 25
+
+    9 declarations: KW_LET assignment KW_CLN . type KW_ERWTIMATIKO
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 51
+
+
+Κατάσταση 26
+
+    2 program_start: head program KW_START KW_ARROW . KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 52
+
+
+Κατάσταση 27
+
+   13 const_assignment: TK_IDENT KW_HK TK_INT . KW_CLOSE_HK value
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 53
+
+
+Κατάσταση 28
+
+   46 variables: KW_TRUE .
+
+    $default  ελάττωση με χρήση του κανόνα 46 (variables)
+
+
+Κατάσταση 29
+
+   47 variables: KW_FALSE .
+
+    $default  ελάττωση με χρήση του κανόνα 47 (variables)
+
+
+Κατάσταση 30
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   29           | KW_NOT . expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 54
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 31
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   30           | KW_PLUS . expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 55
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 32
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   31           | KW_SUB . expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 56
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 33
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS . f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+    8                      | KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS . KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   27           | KW_PARENTHESIS . expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   50 f_parameters: . TK_IDENT KW_CLN type
+   51             | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_CLN type
+   52             | . f_parameters KW_COMMA TK_IDENT KW_CLN type
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE               ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE              ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT                ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS               ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB                ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS        ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 57
+    KW_BRACKET            ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT              ολίσθηση, και μετάβαση στη κατάσταση 58
+    TK_INT                ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL               ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT           ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 59
+    variables      πήγαινε στην κατάσταση 40
+    f_parameters   πήγαινε στην κατάσταση 60
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 34
+
+   25 expression: KW_BRACKET . init_array KW_CLOSE_BRACKET
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   48 init_array: . variables
+   49           | . init_array KW_COMMA variables
+
+    KW_TRUE      ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE     ολίσθηση, και μετάβαση στη κατάσταση 29
+    TK_IDENT     ολίσθηση, και μετάβαση στη κατάσταση 61
+    TK_INT       ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL      ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT  ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    variables   πήγαινε στην κατάσταση 62
+    init_array  πήγαινε στην κατάσταση 63
+
+
+Κατάσταση 35
+
+   45 variables: TK_IDENT .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   75 call_function: TK_IDENT . KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | TK_IDENT . KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 64
+
+    $default  ελάττωση με χρήση του κανόνα 45 (variables)
+
+
+Κατάσταση 36
+
+   42 variables: TK_INT .
+
+    $default  ελάττωση με χρήση του κανόνα 42 (variables)
+
+
+Κατάσταση 37
+
+   43 variables: TK_REAL .
+
+    $default  ελάττωση με χρήση του κανόνα 43 (variables)
+
+
+Κατάσταση 38
+
+   44 variables: TK_CONSTANT .
+
+    $default  ελάττωση με χρήση του κανόνα 44 (variables)
+
+
+Κατάσταση 39
+
+   23 value: KW_ARROW expression .  [KW_COMMA, KW_CLN]
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 23 (value)
+
+
+Κατάσταση 40
+
+   24 expression: variables .
+
+    $default  ελάττωση με χρήση του κανόνα 24 (expression)
+
+
+Κατάσταση 41
+
+   26 expression: call_function .
+
+    $default  ελάττωση με χρήση του κανόνα 26 (expression)
+
+
+Κατάσταση 42
+
+   12 const_assignment: const_assignment KW_COMMA TK_IDENT . value
+   14                 | const_assignment KW_COMMA TK_IDENT . KW_HK TK_INT KW_CLOSE_HK value
+   23 value: . KW_ARROW expression
+
+    KW_HK     ολίσθηση, και μετάβαση στη κατάσταση 76
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    value  πήγαινε στην κατάσταση 77
+
+
+Κατάσταση 43
+
+   71 type: KW_INT .
+
+    $default  ελάττωση με χρήση του κανόνα 71 (type)
+
+
+Κατάσταση 44
+
+   72 type: KW_REAL .
+
+    $default  ελάττωση με χρήση του κανόνα 72 (type)
+
+
+Κατάσταση 45
+
+   73 type: KW_BOOL .
+
+    $default  ελάττωση με χρήση του κανόνα 73 (type)
+
+
+Κατάσταση 46
+
+   74 type: KW_STRING .
+
+    $default  ελάττωση με χρήση του κανόνα 74 (type)
+
+
+Κατάσταση 47
+
+   10 declarations: KW_CONST const_assignment KW_CLN type . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 78
+
+
+Κατάσταση 48
+
+   17 assignment: TK_IDENT KW_HK TK_INT . KW_CLOSE_HK
+   18           | TK_IDENT KW_HK TK_INT . KW_CLOSE_HK value
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 79
+
+
+Κατάσταση 49
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   27           | KW_PARENTHESIS . expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 59
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 50
+
+   19 assignment: assignment KW_COMMA TK_IDENT .  [KW_COMMA, KW_CLN]
+   20           | assignment KW_COMMA TK_IDENT . value
+   21           | assignment KW_COMMA TK_IDENT . KW_HK TK_INT KW_CLOSE_HK
+   22           | assignment KW_COMMA TK_IDENT . KW_HK TK_INT KW_CLOSE_HK value
+   23 value: . KW_ARROW expression
+
+    KW_HK     ολίσθηση, και μετάβαση στη κατάσταση 80
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    $default  ελάττωση με χρήση του κανόνα 19 (assignment)
+
+    value  πήγαινε στην κατάσταση 81
+
+
+Κατάσταση 51
+
+    9 declarations: KW_LET assignment KW_CLN type . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 82
+
+
+Κατάσταση 52
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS . KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 83
+
+
+Κατάσταση 53
+
+   13 const_assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK . value
+   23 value: . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    value  πήγαινε στην κατάσταση 84
+
+
+Κατάσταση 54
+
+   28 expression: expression . KW_PLUS expression
+   29           | KW_NOT expression .  [KW_LOOP, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 29 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ολίσθηση (KW_NOT < KW_PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ολίσθηση (KW_NOT < KW_SUB).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ολίσθηση (KW_NOT < KW_MUL).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ολίσθηση (KW_NOT < KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ολίσθηση (KW_NOT < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ολίσθηση (KW_NOT < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ολίσθηση (KW_NOT < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_NOT < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_NOT < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_NOT < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 29 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_NOT < KW_OR).
+
+
+Κατάσταση 55
+
+   28 expression: expression . KW_PLUS expression
+   30           | KW_PLUS expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    $default  ελάττωση με χρήση του κανόνα 30 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (KW_AND < SPLUS).
+    Η σύγκρουση μεταξύ του κανόνα 30 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ελάττωση (KW_OR < SPLUS).
+
+
+Κατάσταση 56
+
+   28 expression: expression . KW_PLUS expression
+   31           | KW_SUB expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    $default  ελάττωση με χρήση του κανόνα 31 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (KW_AND < SSUB).
+    Η σύγκρουση μεταξύ του κανόνα 31 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ελάττωση (KW_OR < SSUB).
+
+
+Κατάσταση 57
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS . KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_CLN  ολίσθηση, και μετάβαση στη κατάσταση 85
+
+
+Κατάσταση 58
+
+   45 variables: TK_IDENT .  [KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_CLOSE_PARENTHESIS]
+   50 f_parameters: TK_IDENT . KW_CLN type
+   51             | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK KW_CLN type
+   75 call_function: TK_IDENT . KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | TK_IDENT . KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 64
+    KW_HK           ολίσθηση, και μετάβαση στη κατάσταση 86
+    KW_CLN          ολίσθηση, και μετάβαση στη κατάσταση 87
+
+    $default  ελάττωση με χρήση του κανόνα 45 (variables)
+
+
+Κατάσταση 59
+
+   27 expression: KW_PARENTHESIS expression . KW_CLOSE_PARENTHESIS
+   28           | expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_PLUS               ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB                ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL                ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV                ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD                ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL              ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL           ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN           ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL          ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND                ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR                 ολίσθηση, και μετάβαση στη κατάσταση 75
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 88
+
+
+Κατάσταση 60
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters . KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   52 f_parameters: f_parameters . KW_COMMA TK_IDENT KW_CLN type
+
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 89
+    KW_COMMA              ολίσθηση, και μετάβαση στη κατάσταση 90
+
+
+Κατάσταση 61
+
+   45 variables: TK_IDENT .
+
+    $default  ελάττωση με χρήση του κανόνα 45 (variables)
+
+
+Κατάσταση 62
+
+   48 init_array: variables .
+
+    $default  ελάττωση με χρήση του κανόνα 48 (init_array)
+
+
+Κατάσταση 63
+
+   25 expression: KW_BRACKET init_array . KW_CLOSE_BRACKET
+   49 init_array: init_array . KW_COMMA variables
+
+    KW_COMMA          ολίσθηση, και μετάβαση στη κατάσταση 91
+    KW_CLOSE_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 92
+
+
+Κατάσταση 64
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   75              | TK_IDENT KW_PARENTHESIS . parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+   76              | TK_IDENT KW_PARENTHESIS . KW_CLOSE_PARENTHESIS
+   77 parameters: . expression
+   78           | . parameters KW_COMMA TK_IDENT
+
+    KW_TRUE               ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE              ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT                ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS               ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB                ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS        ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 93
+    KW_BRACKET            ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT              ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT                ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL               ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT           ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 94
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+    parameters     πήγαινε στην κατάσταση 95
+
+
+Κατάσταση 65
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   28           | expression KW_PLUS . expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 96
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 66
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   32           | expression KW_SUB . expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 97
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 67
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   33           | expression KW_MUL . expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 98
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 68
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   34           | expression KW_DIV . expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 99
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 69
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   35           | expression KW_MOD . expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 100
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 70
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   36           | expression KW_EQUAL . expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 101
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 71
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   37           | expression KW_NOTEQUAL . expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 102
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 72
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   38           | expression KW_LESSTHAN . expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 103
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 73
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   39           | expression KW_LESSEQUAL . expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 104
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 74
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   40           | expression KW_AND . expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 105
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 75
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   41           | expression KW_OR . expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 106
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 76
+
+   14 const_assignment: const_assignment KW_COMMA TK_IDENT KW_HK . TK_INT KW_CLOSE_HK value
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 107
+
+
+Κατάσταση 77
+
+   12 const_assignment: const_assignment KW_COMMA TK_IDENT value .
+
+    $default  ελάττωση με χρήση του κανόνα 12 (const_assignment)
+
+
+Κατάσταση 78
+
+   10 declarations: KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 10 (declarations)
+
+
+Κατάσταση 79
+
+   17 assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK .  [KW_COMMA, KW_CLN]
+   18           | TK_IDENT KW_HK TK_INT KW_CLOSE_HK . value
+   23 value: . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    $default  ελάττωση με χρήση του κανόνα 17 (assignment)
+
+    value  πήγαινε στην κατάσταση 108
+
+
+Κατάσταση 80
+
+   21 assignment: assignment KW_COMMA TK_IDENT KW_HK . TK_INT KW_CLOSE_HK
+   22           | assignment KW_COMMA TK_IDENT KW_HK . TK_INT KW_CLOSE_HK value
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 109
+
+
+Κατάσταση 81
+
+   20 assignment: assignment KW_COMMA TK_IDENT value .
+
+    $default  ελάττωση με χρήση του κανόνα 20 (assignment)
+
+
+Κατάσταση 82
+
+    9 declarations: KW_LET assignment KW_CLN type KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 9 (declarations)
+
+
+Κατάσταση 83
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS . KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_CLN  ολίσθηση, και μετάβαση στη κατάσταση 110
+
+
+Κατάσταση 84
+
+   13 const_assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK value .
+
+    $default  ελάττωση με χρήση του κανόνα 13 (const_assignment)
+
+
+Κατάσταση 85
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN . type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 111
+
+
+Κατάσταση 86
+
+   51 f_parameters: TK_IDENT KW_HK . TK_INT KW_CLOSE_HK KW_CLN type
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 112
+
+
+Κατάσταση 87
+
+   50 f_parameters: TK_IDENT KW_CLN . type
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 113
+
+
+Κατάσταση 88
+
+   27 expression: KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS .
+
+    $default  ελάττωση με χρήση του κανόνα 27 (expression)
+
+
+Κατάσταση 89
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS . KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_CLN  ολίσθηση, και μετάβαση στη κατάσταση 114
+
+
+Κατάσταση 90
+
+   52 f_parameters: f_parameters KW_COMMA . TK_IDENT KW_CLN type
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 115
+
+
+Κατάσταση 91
+
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   49 init_array: init_array KW_COMMA . variables
+
+    KW_TRUE      ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE     ολίσθηση, και μετάβαση στη κατάσταση 29
+    TK_IDENT     ολίσθηση, και μετάβαση στη κατάσταση 61
+    TK_INT       ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL      ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT  ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    variables  πήγαινε στην κατάσταση 116
+
+
+Κατάσταση 92
+
+   25 expression: KW_BRACKET init_array KW_CLOSE_BRACKET .
+
+    $default  ελάττωση με χρήση του κανόνα 25 (expression)
+
+
+Κατάσταση 93
+
+   76 call_function: TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS .
+
+    $default  ελάττωση με χρήση του κανόνα 76 (call_function)
+
+
+Κατάσταση 94
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   77 parameters: expression .  [KW_CLOSE_PARENTHESIS, KW_COMMA]
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 77 (parameters)
+
+
+Κατάσταση 95
+
+   75 call_function: TK_IDENT KW_PARENTHESIS parameters . KW_CLOSE_PARENTHESIS
+   78 parameters: parameters . KW_COMMA TK_IDENT
+
+    KW_CLOSE_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 117
+    KW_COMMA              ολίσθηση, και μετάβαση στη κατάσταση 118
+
+
+Κατάσταση 96
+
+   28 expression: expression . KW_PLUS expression
+   28           | expression KW_PLUS expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    $default  ελάττωση με χρήση του κανόνα 28 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (KW_AND < PLUS).
+    Η σύγκρουση μεταξύ του κανόνα 28 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ελάττωση (KW_OR < PLUS).
+
+
+Κατάσταση 97
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   32           | expression KW_SUB expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    $default  ελάττωση με χρήση του κανόνα 32 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (KW_AND < SUB).
+    Η σύγκρουση μεταξύ του κανόνα 32 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ελάττωση (KW_OR < SUB).
+
+
+Κατάσταση 98
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   33           | expression KW_MUL expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 33 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_MUL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_MUL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (%left KW_MUL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ολίσθηση (KW_MUL < KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ολίσθηση (KW_MUL < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ολίσθηση (KW_MUL < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ολίσθηση (KW_MUL < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_MUL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_MUL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_MUL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 33 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_MUL < KW_OR).
+
+
+Κατάσταση 99
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   34           | expression KW_DIV expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 34 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (%left KW_DIV).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ολίσθηση (KW_DIV < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ολίσθηση (KW_DIV < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ολίσθηση (KW_DIV < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_DIV < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_DIV < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_DIV < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 34 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_DIV < KW_OR).
+
+
+Κατάσταση 100
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   35           | expression KW_MOD expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 35 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (%left KW_MOD).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ολίσθηση (KW_MOD < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ολίσθηση (KW_MOD < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_MOD < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_MOD < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_MOD < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 35 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_MOD < KW_OR).
+
+
+Κατάσταση 101
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   36           | expression KW_EQUAL expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 36 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (%left KW_EQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ολίσθηση (KW_EQUAL < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_EQUAL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_EQUAL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_EQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 36 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_EQUAL < KW_OR).
+
+
+Κατάσταση 102
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   37           | expression KW_NOTEQUAL expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 37 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (%left KW_NOTEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ολίσθηση (KW_NOTEQUAL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_NOTEQUAL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_NOTEQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 37 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_NOTEQUAL < KW_OR).
+
+
+Κατάσταση 103
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   38           | expression KW_LESSTHAN expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 38 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (%left KW_LESSTHAN).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ολίσθηση (KW_LESSTHAN < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_LESSTHAN < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 38 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_LESSTHAN < KW_OR).
+
+
+Κατάσταση 104
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   39           | expression KW_LESSEQUAL expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+
+    KW_AND  ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR   ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 39 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (%left KW_LESSEQUAL).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ολίσθηση (KW_LESSEQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 39 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_LESSEQUAL < KW_OR).
+
+
+Κατάσταση 105
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   40           | expression KW_AND expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+   41           | expression . KW_OR expression
+
+    KW_OR  ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 40 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (%left KW_AND).
+    Η σύγκρουση μεταξύ του κανόνα 40 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ολίσθηση (KW_AND < KW_OR).
+
+
+Κατάσταση 106
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   41           | expression KW_OR expression .  [KW_LOOP, KW_PLUS, KW_SUB, KW_MUL, KW_DIV, KW_MOD, KW_EQUAL, KW_NOTEQUAL, KW_LESSTHAN, KW_LESSEQUAL, KW_AND, KW_OR, KW_ERWTIMATIKO, KW_CLOSE_PARENTHESIS, KW_COMMA, KW_CLN, KW_THEN]
+
+    $default  ελάττωση με χρήση του κανόνα 41 (expression)
+
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_PLUS επιλύθηκε ως ελάττωση (KW_PLUS < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_SUB επιλύθηκε ως ελάττωση (KW_SUB < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_MUL επιλύθηκε ως ελάττωση (KW_MUL < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_DIV επιλύθηκε ως ελάττωση (KW_DIV < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_MOD επιλύθηκε ως ελάττωση (KW_MOD < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_EQUAL επιλύθηκε ως ελάττωση (KW_EQUAL < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_NOTEQUAL επιλύθηκε ως ελάττωση (KW_NOTEQUAL < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_LESSTHAN επιλύθηκε ως ελάττωση (KW_LESSTHAN < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_LESSEQUAL επιλύθηκε ως ελάττωση (KW_LESSEQUAL < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_AND επιλύθηκε ως ελάττωση (KW_AND < KW_OR).
+    Η σύγκρουση μεταξύ του κανόνα 41 και της λεκτικής μονάδας KW_OR επιλύθηκε ως ελάττωση (%left KW_OR).
+
+
+Κατάσταση 107
+
+   14 const_assignment: const_assignment KW_COMMA TK_IDENT KW_HK TK_INT . KW_CLOSE_HK value
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 119
+
+
+Κατάσταση 108
+
+   18 assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK value .
+
+    $default  ελάττωση με χρήση του κανόνα 18 (assignment)
+
+
+Κατάσταση 109
+
+   21 assignment: assignment KW_COMMA TK_IDENT KW_HK TK_INT . KW_CLOSE_HK
+   22           | assignment KW_COMMA TK_IDENT KW_HK TK_INT . KW_CLOSE_HK value
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 120
+
+
+Κατάσταση 110
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN . KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_INT  ολίσθηση, και μετάβαση στη κατάσταση 121
+
+
+Κατάσταση 111
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type . KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_SEPERATION  ολίσθηση, και μετάβαση στη κατάσταση 122
+
+
+Κατάσταση 112
+
+   51 f_parameters: TK_IDENT KW_HK TK_INT . KW_CLOSE_HK KW_CLN type
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 123
+
+
+Κατάσταση 113
+
+   50 f_parameters: TK_IDENT KW_CLN type .
+
+    $default  ελάττωση με χρήση του κανόνα 50 (f_parameters)
+
+
+Κατάσταση 114
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN . type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 124
+
+
+Κατάσταση 115
+
+   52 f_parameters: f_parameters KW_COMMA TK_IDENT . KW_CLN type
+
+    KW_CLN  ολίσθηση, και μετάβαση στη κατάσταση 125
+
+
+Κατάσταση 116
+
+   49 init_array: init_array KW_COMMA variables .
+
+    $default  ελάττωση με χρήση του κανόνα 49 (init_array)
+
+
+Κατάσταση 117
+
+   75 call_function: TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS .
+
+    $default  ελάττωση με χρήση του κανόνα 75 (call_function)
+
+
+Κατάσταση 118
+
+   78 parameters: parameters KW_COMMA . TK_IDENT
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 126
+
+
+Κατάσταση 119
+
+   14 const_assignment: const_assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK . value
+   23 value: . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    value  πήγαινε στην κατάσταση 127
+
+
+Κατάσταση 120
+
+   21 assignment: assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK .  [KW_COMMA, KW_CLN]
+   22           | assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK . value
+   23 value: . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    $default  ελάττωση με χρήση του κανόνα 21 (assignment)
+
+    value  πήγαινε στην κατάσταση 128
+
+
+Κατάσταση 121
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT . KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_SEPERATION  ολίσθηση, και μετάβαση στη κατάσταση 129
+
+
+Κατάσταση 122
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION . KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 130
+
+
+Κατάσταση 123
+
+   51 f_parameters: TK_IDENT KW_HK TK_INT KW_CLOSE_HK . KW_CLN type
+
+    KW_CLN  ολίσθηση, και μετάβαση στη κατάσταση 131
+
+
+Κατάσταση 124
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type . KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_SEPERATION  ολίσθηση, και μετάβαση στη κατάσταση 132
+
+
+Κατάσταση 125
+
+   52 f_parameters: f_parameters KW_COMMA TK_IDENT KW_CLN . type
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 133
+
+
+Κατάσταση 126
+
+   78 parameters: parameters KW_COMMA TK_IDENT .
+
+    $default  ελάττωση με χρήση του κανόνα 78 (parameters)
+
+
+Κατάσταση 127
+
+   14 const_assignment: const_assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value .
+
+    $default  ελάττωση με χρήση του κανόνα 14 (const_assignment)
+
+
+Κατάσταση 128
+
+   22 assignment: assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value .
+
+    $default  ελάττωση με χρήση του κανόνα 22 (assignment)
+
+
+Κατάσταση 129
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION . KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 134
+
+
+Κατάσταση 130
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET . body KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   53 body: . instructions
+   54     | . body instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    body              πήγαινε στην κατάσταση 141
+    instructions      πήγαινε στην κατάσταση 142
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 131
+
+   51 f_parameters: TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_CLN . type
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+
+    type  πήγαινε στην κατάσταση 148
+
+
+Κατάσταση 132
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION . KW_BRACKET body KW_CLOSE_BRACKET
+
+    KW_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 149
+
+
+Κατάσταση 133
+
+   52 f_parameters: f_parameters KW_COMMA TK_IDENT KW_CLN type .
+
+    $default  ελάττωση με χρήση του κανόνα 52 (f_parameters)
+
+
+Κατάσταση 134
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET . body KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   53 body: . instructions
+   54     | . body instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    body              πήγαινε στην κατάσταση 150
+    instructions      πήγαινε στην κατάσταση 142
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 135
+
+   10 declarations: KW_CONST . const_assignment KW_CLN type KW_ERWTIMATIKO
+   11 const_assignment: . TK_IDENT value
+   12                 | . const_assignment KW_COMMA TK_IDENT value
+   13                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+   14                 | . const_assignment KW_COMMA TK_IDENT KW_HK TK_INT KW_CLOSE_HK value
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 151
+
+    const_assignment  πήγαινε στην κατάσταση 11
+
+
+Κατάσταση 136
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   64 if_statement: KW_IF . expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | KW_IF . expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 152
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 137
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   68 while_statement: KW_WHILE . expression KW_LOOP stmt
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 153
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 138
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   58 instructions: KW_RETURN . expression KW_ERWTIMATIKO
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 154
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 139
+
+   61 instr_assignment: TK_IDENT . KW_ARROW expression
+   63                 | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   75 call_function: TK_IDENT . KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | TK_IDENT . KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 64
+    KW_HK           ολίσθηση, και μετάβαση στη κατάσταση 155
+    KW_ARROW        ολίσθηση, και μετάβαση στη κατάσταση 156
+
+
+Κατάσταση 140
+
+   59 instructions: declarations .
+
+    $default  ελάττωση με χρήση του κανόνα 59 (instructions)
+
+
+Κατάσταση 141
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body . KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   54 body: body . instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST          ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT            ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL           ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL           ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING         ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF             ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE          ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET            ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN         ολίσθηση, και μετάβαση στη κατάσταση 138
+    KW_CLOSE_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 157
+    TK_IDENT          ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 158
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 142
+
+   53 body: instructions .
+
+    $default  ελάττωση με χρήση του κανόνα 53 (body)
+
+
+Κατάσταση 143
+
+   55 instructions: instr_assignment . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 159
+
+
+Κατάσταση 144
+
+   56 instructions: if_statement .
+
+    $default  ελάττωση με χρήση του κανόνα 56 (instructions)
+
+
+Κατάσταση 145
+
+   57 instructions: while_statement . KW_POOL KW_ERWTIMATIKO
+
+    KW_POOL  ολίσθηση, και μετάβαση στη κατάσταση 160
+
+
+Κατάσταση 146
+
+   62 instr_assignment: type . TK_IDENT KW_ARROW expression
+
+    TK_IDENT  ολίσθηση, και μετάβαση στη κατάσταση 161
+
+
+Κατάσταση 147
+
+   60 instructions: call_function . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 162
+
+
+Κατάσταση 148
+
+   51 f_parameters: TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_CLN type .
+
+    $default  ελάττωση με χρήση του κανόνα 51 (f_parameters)
+
+
+Κατάσταση 149
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET . body KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   53 body: . instructions
+   54     | . body instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    body              πήγαινε στην κατάσταση 163
+    instructions      πήγαινε στην κατάσταση 142
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 150
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body . KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   54 body: body . instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST          ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT            ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL           ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL           ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING         ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF             ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE          ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET            ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN         ολίσθηση, και μετάβαση στη κατάσταση 138
+    KW_CLOSE_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 164
+    TK_IDENT          ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 158
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 151
+
+   11 const_assignment: TK_IDENT . value
+   13                 | TK_IDENT . KW_HK TK_INT KW_CLOSE_HK value
+   23 value: . KW_ARROW expression
+
+    KW_HK     ολίσθηση, και μετάβαση στη κατάσταση 16
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 22
+
+    value  πήγαινε στην κατάσταση 18
+
+
+Κατάσταση 152
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   64 if_statement: KW_IF expression . KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | KW_IF expression . KW_THEN stmt KW_FI KW_ERWTIMATIKO
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+    KW_THEN       ολίσθηση, και μετάβαση στη κατάσταση 165
+
+
+Κατάσταση 153
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   68 while_statement: KW_WHILE expression . KW_LOOP stmt
+
+    KW_LOOP       ολίσθηση, και μετάβαση στη κατάσταση 166
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+
+Κατάσταση 154
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   58 instructions: KW_RETURN expression . KW_ERWTIMATIKO
+
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL          ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV          ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD          ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL        ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL     ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN     ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL    ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND          ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR           ολίσθηση, και μετάβαση στη κατάσταση 75
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 167
+
+
+Κατάσταση 155
+
+   63 instr_assignment: TK_IDENT KW_HK . TK_INT KW_CLOSE_HK KW_ARROW expression
+
+    TK_INT  ολίσθηση, και μετάβαση στη κατάσταση 168
+
+
+Κατάσταση 156
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   61 instr_assignment: TK_IDENT KW_ARROW . expression
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 169
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 157
+
+    8 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET .
+
+    $default  ελάττωση με χρήση του κανόνα 8 (functions_declaration)
+
+
+Κατάσταση 158
+
+   54 body: body instructions .
+
+    $default  ελάττωση με χρήση του κανόνα 54 (body)
+
+
+Κατάσταση 159
+
+   55 instructions: instr_assignment KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 55 (instructions)
+
+
+Κατάσταση 160
+
+   57 instructions: while_statement KW_POOL . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 170
+
+
+Κατάσταση 161
+
+   62 instr_assignment: type TK_IDENT . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 171
+
+
+Κατάσταση 162
+
+   60 instructions: call_function KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 60 (instructions)
+
+
+Κατάσταση 163
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body . KW_CLOSE_BRACKET
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   54 body: body . instructions
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST          ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT            ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL           ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL           ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING         ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF             ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE          ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET            ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN         ολίσθηση, και μετάβαση στη κατάσταση 138
+    KW_CLOSE_BRACKET  ολίσθηση, και μετάβαση στη κατάσταση 172
+    TK_IDENT          ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 158
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 164
+
+    2 program_start: head program KW_START KW_ARROW KW_PARENTHESIS KW_CLOSE_PARENTHESIS KW_CLN KW_INT KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET .
+
+    $default  ελάττωση με χρήση του κανόνα 2 (program_start)
+
+
+Κατάσταση 165
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   64             | KW_IF expression KW_THEN . stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   65             | KW_IF expression KW_THEN . stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   69 stmt: . instructions
+   70     | . stmt instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 173
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    stmt              πήγαινε στην κατάσταση 174
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 166
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   68                | KW_WHILE expression KW_LOOP . stmt
+   69 stmt: . instructions
+   70     | . stmt instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 173
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    stmt              πήγαινε στην κατάσταση 175
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 167
+
+   58 instructions: KW_RETURN expression KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 58 (instructions)
+
+
+Κατάσταση 168
+
+   63 instr_assignment: TK_IDENT KW_HK TK_INT . KW_CLOSE_HK KW_ARROW expression
+
+    KW_CLOSE_HK  ολίσθηση, και μετάβαση στη κατάσταση 176
+
+
+Κατάσταση 169
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   61 instr_assignment: TK_IDENT KW_ARROW expression .  [KW_ERWTIMATIKO]
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 61 (instr_assignment)
+
+
+Κατάσταση 170
+
+   57 instructions: while_statement KW_POOL KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 57 (instructions)
+
+
+Κατάσταση 171
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   62 instr_assignment: type TK_IDENT KW_ARROW . expression
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 177
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 172
+
+    7 functions_declaration: KW_CONST TK_IDENT KW_ARROW KW_PARENTHESIS f_parameters KW_CLOSE_PARENTHESIS KW_CLN type KW_SEPERATION KW_BRACKET body KW_CLOSE_BRACKET .
+
+    $default  ελάττωση με χρήση του κανόνα 7 (functions_declaration)
+
+
+Κατάσταση 173
+
+   69 stmt: instructions .
+
+    $default  ελάττωση με χρήση του κανόνα 69 (stmt)
+
+
+Κατάσταση 174
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   64             | KW_IF expression KW_THEN stmt . KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   65             | KW_IF expression KW_THEN stmt . KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   70 stmt: stmt . instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_ELSE    ολίσθηση, και μετάβαση στη κατάσταση 178
+    KW_FI      ολίσθηση, και μετάβαση στη κατάσταση 179
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 180
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 175
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   68                | KW_WHILE expression KW_LOOP stmt .  [KW_POOL]
+   70 stmt: stmt . instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    $default  ελάττωση με χρήση του κανόνα 68 (while_statement)
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 180
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 176
+
+   63 instr_assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK . KW_ARROW expression
+
+    KW_ARROW  ολίσθηση, και μετάβαση στη κατάσταση 181
+
+
+Κατάσταση 177
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   62 instr_assignment: type TK_IDENT KW_ARROW expression .  [KW_ERWTIMATIKO]
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 62 (instr_assignment)
+
+
+Κατάσταση 178
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   64             | KW_IF expression KW_THEN stmt KW_ELSE . else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   66 else_stmt: . instructions
+   67          | . stmt instructions
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   69 stmt: . instructions
+   70     | . stmt instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 182
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    else_stmt         πήγαινε στην κατάσταση 183
+    while_statement   πήγαινε στην κατάσταση 145
+    stmt              πήγαινε στην κατάσταση 184
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 179
+
+   65 if_statement: KW_IF expression KW_THEN stmt KW_FI . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 185
+
+
+Κατάσταση 180
+
+   70 stmt: stmt instructions .
+
+    $default  ελάττωση με χρήση του κανόνα 70 (stmt)
+
+
+Κατάσταση 181
+
+   24 expression: . variables
+   25           | . KW_BRACKET init_array KW_CLOSE_BRACKET
+   26           | . call_function
+   27           | . KW_PARENTHESIS expression KW_CLOSE_PARENTHESIS
+   28           | . expression KW_PLUS expression
+   29           | . KW_NOT expression
+   30           | . KW_PLUS expression
+   31           | . KW_SUB expression
+   32           | . expression KW_SUB expression
+   33           | . expression KW_MUL expression
+   34           | . expression KW_DIV expression
+   35           | . expression KW_MOD expression
+   36           | . expression KW_EQUAL expression
+   37           | . expression KW_NOTEQUAL expression
+   38           | . expression KW_LESSTHAN expression
+   39           | . expression KW_LESSEQUAL expression
+   40           | . expression KW_AND expression
+   41           | . expression KW_OR expression
+   42 variables: . TK_INT
+   43          | . TK_REAL
+   44          | . TK_CONSTANT
+   45          | . TK_IDENT
+   46          | . KW_TRUE
+   47          | . KW_FALSE
+   63 instr_assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW . expression
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_TRUE         ολίσθηση, και μετάβαση στη κατάσταση 28
+    KW_FALSE        ολίσθηση, και μετάβαση στη κατάσταση 29
+    KW_NOT          ολίσθηση, και μετάβαση στη κατάσταση 30
+    KW_PLUS         ολίσθηση, και μετάβαση στη κατάσταση 31
+    KW_SUB          ολίσθηση, και μετάβαση στη κατάσταση 32
+    KW_PARENTHESIS  ολίσθηση, και μετάβαση στη κατάσταση 49
+    KW_BRACKET      ολίσθηση, και μετάβαση στη κατάσταση 34
+    TK_IDENT        ολίσθηση, και μετάβαση στη κατάσταση 35
+    TK_INT          ολίσθηση, και μετάβαση στη κατάσταση 36
+    TK_REAL         ολίσθηση, και μετάβαση στη κατάσταση 37
+    TK_CONSTANT     ολίσθηση, και μετάβαση στη κατάσταση 38
+
+    expression     πήγαινε στην κατάσταση 186
+    variables      πήγαινε στην κατάσταση 40
+    call_function  πήγαινε στην κατάσταση 41
+
+
+Κατάσταση 182
+
+   66 else_stmt: instructions .  [KW_FI]
+   69 stmt: instructions .  [KW_CONST, KW_INT, KW_REAL, KW_BOOL, KW_STRING, KW_IF, KW_WHILE, KW_LET, KW_RETURN, TK_IDENT]
+
+    KW_FI     ελάττωση με χρήση του κανόνα 66 (else_stmt)
+    $default  ελάττωση με χρήση του κανόνα 69 (stmt)
+
+
+Κατάσταση 183
+
+   64 if_statement: KW_IF expression KW_THEN stmt KW_ELSE else_stmt . KW_FI KW_ERWTIMATIKO
+
+    KW_FI  ολίσθηση, και μετάβαση στη κατάσταση 187
+
+
+Κατάσταση 184
+
+    9 declarations: . KW_LET assignment KW_CLN type KW_ERWTIMATIKO
+   10             | . KW_CONST const_assignment KW_CLN type KW_ERWTIMATIKO
+   55 instructions: . instr_assignment KW_ERWTIMATIKO
+   56             | . if_statement
+   57             | . while_statement KW_POOL KW_ERWTIMATIKO
+   58             | . KW_RETURN expression KW_ERWTIMATIKO
+   59             | . declarations
+   60             | . call_function KW_ERWTIMATIKO
+   61 instr_assignment: . TK_IDENT KW_ARROW expression
+   62                 | . type TK_IDENT KW_ARROW expression
+   63                 | . TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression
+   64 if_statement: . KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO
+   65             | . KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO
+   67 else_stmt: stmt . instructions
+   68 while_statement: . KW_WHILE expression KW_LOOP stmt
+   70 stmt: stmt . instructions
+   71 type: . KW_INT
+   72     | . KW_REAL
+   73     | . KW_BOOL
+   74     | . KW_STRING
+   75 call_function: . TK_IDENT KW_PARENTHESIS parameters KW_CLOSE_PARENTHESIS
+   76              | . TK_IDENT KW_PARENTHESIS KW_CLOSE_PARENTHESIS
+
+    KW_CONST   ολίσθηση, και μετάβαση στη κατάσταση 135
+    KW_INT     ολίσθηση, και μετάβαση στη κατάσταση 43
+    KW_REAL    ολίσθηση, και μετάβαση στη κατάσταση 44
+    KW_BOOL    ολίσθηση, και μετάβαση στη κατάσταση 45
+    KW_STRING  ολίσθηση, και μετάβαση στη κατάσταση 46
+    KW_IF      ολίσθηση, και μετάβαση στη κατάσταση 136
+    KW_WHILE   ολίσθηση, και μετάβαση στη κατάσταση 137
+    KW_LET     ολίσθηση, και μετάβαση στη κατάσταση 4
+    KW_RETURN  ολίσθηση, και μετάβαση στη κατάσταση 138
+    TK_IDENT   ολίσθηση, και μετάβαση στη κατάσταση 139
+
+    declarations      πήγαινε στην κατάσταση 140
+    instructions      πήγαινε στην κατάσταση 188
+    instr_assignment  πήγαινε στην κατάσταση 143
+    if_statement      πήγαινε στην κατάσταση 144
+    while_statement   πήγαινε στην κατάσταση 145
+    type              πήγαινε στην κατάσταση 146
+    call_function     πήγαινε στην κατάσταση 147
+
+
+Κατάσταση 185
+
+   65 if_statement: KW_IF expression KW_THEN stmt KW_FI KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 65 (if_statement)
+
+
+Κατάσταση 186
+
+   28 expression: expression . KW_PLUS expression
+   32           | expression . KW_SUB expression
+   33           | expression . KW_MUL expression
+   34           | expression . KW_DIV expression
+   35           | expression . KW_MOD expression
+   36           | expression . KW_EQUAL expression
+   37           | expression . KW_NOTEQUAL expression
+   38           | expression . KW_LESSTHAN expression
+   39           | expression . KW_LESSEQUAL expression
+   40           | expression . KW_AND expression
+   41           | expression . KW_OR expression
+   63 instr_assignment: TK_IDENT KW_HK TK_INT KW_CLOSE_HK KW_ARROW expression .  [KW_ERWTIMATIKO]
+
+    KW_PLUS       ολίσθηση, και μετάβαση στη κατάσταση 65
+    KW_SUB        ολίσθηση, και μετάβαση στη κατάσταση 66
+    KW_MUL        ολίσθηση, και μετάβαση στη κατάσταση 67
+    KW_DIV        ολίσθηση, και μετάβαση στη κατάσταση 68
+    KW_MOD        ολίσθηση, και μετάβαση στη κατάσταση 69
+    KW_EQUAL      ολίσθηση, και μετάβαση στη κατάσταση 70
+    KW_NOTEQUAL   ολίσθηση, και μετάβαση στη κατάσταση 71
+    KW_LESSTHAN   ολίσθηση, και μετάβαση στη κατάσταση 72
+    KW_LESSEQUAL  ολίσθηση, και μετάβαση στη κατάσταση 73
+    KW_AND        ολίσθηση, και μετάβαση στη κατάσταση 74
+    KW_OR         ολίσθηση, και μετάβαση στη κατάσταση 75
+
+    $default  ελάττωση με χρήση του κανόνα 63 (instr_assignment)
+
+
+Κατάσταση 187
+
+   64 if_statement: KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI . KW_ERWTIMATIKO
+
+    KW_ERWTIMATIKO  ολίσθηση, και μετάβαση στη κατάσταση 189
+
+
+Κατάσταση 188
+
+   67 else_stmt: stmt instructions .  [KW_FI]
+   70 stmt: stmt instructions .  [KW_CONST, KW_INT, KW_REAL, KW_BOOL, KW_STRING, KW_IF, KW_WHILE, KW_LET, KW_RETURN, TK_IDENT]
+
+    KW_FI     ελάττωση με χρήση του κανόνα 67 (else_stmt)
+    $default  ελάττωση με χρήση του κανόνα 70 (stmt)
+
+
+Κατάσταση 189
+
+   64 if_statement: KW_IF expression KW_THEN stmt KW_ELSE else_stmt KW_FI KW_ERWTIMATIKO .
+
+    $default  ελάττωση με χρήση του κανόνα 64 (if_statement)
